@@ -3,10 +3,13 @@
 #include <vector>
 #include <string>
 #include <stack>
+#include <iostream>
+#include <fstream>
 
 
 using namespace std;
 using namespace System;
+
 
 
 //class for xml node represented like a tree
@@ -361,6 +364,54 @@ void xml_tree2json(xml_node* node, string& json, int no_tabs, bool is_array)
     }
 }
 
+void xml_tree2xml(xml_node* node, string& xml, char no_tabs)
+{
+    xml = xml + "<" + node->get_name() + ">";
+    if (node->get_value() != "")
+    {
+        xml += "\r\n";
+        for (char i = 0; i < no_tabs; i++)
+        {
+            xml += "   ";
+        }
+    }
+    char i = 0;
+    for (auto& ch : node->get_value())
+    {
+        if (i > 30 && ch == ' ')
+        {
+            xml += "\r\n";
+            for (char i = 0; i < no_tabs; i++)
+            {
+                xml += "   ";
+            }
+            i = 0;
+        }
+        else
+        {
+            xml.push_back(ch);
+            i++;
+        }
+    }
+    for (auto& ch : node->get_children())
+    {
+        xml += "\r\n";
+        for (char i = 0; i < no_tabs; i++)
+            xml += "   ";
+        no_tabs++;
+        xml_tree2xml(ch, xml, no_tabs);
+        no_tabs--;
+    }
+    xml += "\r\n";
+    for (char i = 0; i < no_tabs - 1; i++)
+    {
+        xml += "   ";
+    }
+    if (node->get_name().at(0) != '!' && node->get_name().at(0) != '?')
+    {
+        xml = xml + "</" + node->get_name() + ">";
+    }
+}
 
 
 void XMLProject::XML_Form::xml2json(String^ str_filename, String^& str_json)
@@ -370,7 +421,6 @@ void XMLProject::XML_Form::xml2json(String^ str_filename, String^& str_json)
     System2StdString(str_filename, filename);
     //read file and read it line by line
     xml_node* xml_tree = xml2tree(filename);
-    print_XML(xml_tree, 1);
     string json;
     json.push_back('{');
     json += "\r\n";
@@ -381,3 +431,20 @@ void XMLProject::XML_Form::xml2json(String^ str_filename, String^& str_json)
     cout << endl << "########################" <<endl<< json;
     str_json = gcnew String(json.data());
 }
+
+
+void XMLProject::XML_Form::xmlprettify(String^ str_filename, String^& str_xml)
+{
+    string filename;
+    //convert system string to standard string
+    System2StdString(str_filename, filename);
+    //read file and read it line by line
+    xml_node* xml_tree = xml2tree(filename);
+    string xml;
+    xml_tree2xml(xml_tree, xml, 1);
+    cout << endl << "########################" << endl << xml;
+    str_xml = gcnew String(xml.data());
+}
+
+
+
