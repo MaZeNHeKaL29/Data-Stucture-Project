@@ -169,7 +169,23 @@ bool isValid(string lines[] , int noOfLines)
                 else
                 {
                     s1.pop();
-                    s2.push(temp);
+
+                    if (s2.empty())
+                    {
+                        s2.push(temp);
+                    }
+                    else
+                    {
+                        if ('/' + s2.top() == temp)
+                        {
+                            s2.pop();
+                        }
+                        else
+                        {
+                            s2.push(temp);
+                        }
+                    }
+                    
                     temp = "";
                     flagToStore = false;
                 }
@@ -184,7 +200,13 @@ bool isValid(string lines[] , int noOfLines)
         PrintStack(s2); cout << endl;
     }
 
- 
+    
+    if (s2.empty())
+    {
+        cout << "s2" << endl;
+        return true;
+    }
+
     return s1.empty(); 
 }
 
