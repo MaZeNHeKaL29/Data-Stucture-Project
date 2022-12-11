@@ -31,7 +31,10 @@ namespace XMLProject {
 
 	private: System::Windows::Forms::Label^ label1;
 	private: String^ str_xml;
+	private: System::Windows::Forms::Button^ button2;
 	private: String^ str_filename;
+	private: Stream^ myStream;
+	public: void xml2json(String^ str_filename, String^& str_json);
 	protected:
 
 	protected:
@@ -66,6 +69,7 @@ namespace XMLProject {
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// button1
@@ -113,6 +117,21 @@ namespace XMLProject {
 			this->label1->TabIndex = 3;
 			this->label1->Text = L"No XML File";
 			// 
+			// button2
+			// 
+			this->button2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
+			this->button2->BackColor = System::Drawing::SystemColors::GradientActiveCaption;
+			this->button2->Font = (gcnew System::Drawing::Font(L"Microsoft YaHei UI", 13, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic)),
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->button2->ForeColor = System::Drawing::SystemColors::Highlight;
+			this->button2->Location = System::Drawing::Point(681, 338);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(163, 85);
+			this->button2->TabIndex = 4;
+			this->button2->Text = L"XML2JSON";
+			this->button2->UseVisualStyleBackColor = false;
+			this->button2->Click += gcnew System::EventHandler(this, &XML_Form::button2_Click);
+			// 
 			// XML_Form
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -120,6 +139,7 @@ namespace XMLProject {
 			this->BackColor = System::Drawing::SystemColors::GradientActiveCaption;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->ClientSize = System::Drawing::Size(1036, 452);
+			this->Controls->Add(this->button2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->button1);
@@ -132,13 +152,13 @@ namespace XMLProject {
 		}
 #pragma endregion
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-		Stream^ myStream;
 		openFileDialog1->InitialDirectory = "C";
 		openFileDialog1->Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
 		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 		{
 			if ((myStream = openFileDialog1->OpenFile()) != nullptr)
 			{
+				String^ json;
 				str_filename = openFileDialog1->FileName;
 				str_xml = File::ReadAllText(str_filename);
 				label1->Text = "An XML File is Read";
@@ -147,5 +167,15 @@ namespace XMLProject {
 			}
 		}
 	}
-};
+	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e)
+    	{
+		if ((myStream = openFileDialog1->OpenFile()) != nullptr)
+		{
+			String^ json;
+			xml2json(str_filename, json);
+			textBox1->Text = json;
+		}
+	}
+	};
 }
+
