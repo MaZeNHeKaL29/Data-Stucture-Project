@@ -29,7 +29,6 @@ class post
 		string getTopic(int index){ return topics[index]; }
 };
 
-
 class user
 {
 	private:
@@ -41,11 +40,31 @@ class user
 
 
 
+void PrintStack(stack<string> s)
+{
+
+    if (s.empty())      // If stack is empty then return
+        return;
+
+    string x = s.top();
+    s.pop();            // Pop the top element of the stack
+
+
+    PrintStack(s);      // Recursively call the function PrintStack
+
+    // Print the stack element starting
+    // from the bottom
+    cout << x << " ";
+
+    // Push the same element onto the stack
+    // to preserve the order
+    s.push(x);
+}
+
+
 
 
 #define MAX_LINES 1000
-
-using namespace std;
 
 /*
 this function takes name of file (ex: "books.xml") and array of strings for storing lines (each element in array represent line)
@@ -99,51 +118,79 @@ int readXML(string name, string arr[])
     return lines;
 }
 
+
+
+/*
+this function check vadility of xml file
+it reports error in cases
+    1- if stack top is empty and '<' is comming         ,  push '<' into stack
+    2- if the stack top '<'  and '<' is comming         ,  report error
+    3- if the stack top is empty   and '>' is comming   ,  report error
+    4- if the stack top '>'  and '>' is comming         ,  report error
+    5- if the stack isnot empty after the end of xml    ,  report error
+*/
 bool isValid(string lines[] , int noOfLines)
 {
-    stack<char> stack;
+    stack<char> s1;
+    stack<string> s2;
+    bool flagToStore = false;
+    string temp;
+
     for (int i = 0; i < noOfLines; i++)
     {
+        temp = "";
         for (int y = 0; y < lines[i].length(); y++)
         {
-            if (lines[i][y] == '<')
+            if (lines[i][y] == '<')          // if comming is '<'
             {
-                if (stack.empty())
-                    stack.push('<');
-                else
+                if (s1.empty())              //if stack top is empty, push '<' into stack
                 {
+                    s1.push('<');
+                    flagToStore = true;
+                }
+                else                        //if the stack top '<', report error
+                {
+                    cout << "problem in line " << i << endl;
                     cout << "<..........<" << endl;
                     cout << lines[i] << endl;
                     return false;
                 }
             }
-            else if (lines[i][y] == '/' || lines[i][y] == '>')
+            else if (lines[i][y] == '>')   // if comming is '>'
             {
-                if (stack.empty())
+                if (s1.empty())             //if the stack top is empty, report error
                 {
+                    cout << "problem in line " << i << endl;
+                    cout << "letter " << lines[i][y] << endl;
                     cout << "..........<" << endl;
-                    cout << lines[i] << endl;
-                    return false;
-                }
-                else if (stack.top() == '>')
-                {
-                    cout << ">..........>" << endl;
                     cout << lines[i] << endl;
                     return false;
                 }
                 else
                 {
-                    stack.pop();
-                    break;
+                    s1.pop();
+                    s2.push(temp);
+                    temp = "";
+                    flagToStore = false;
                 }
             }
+            else if(flagToStore)
+            {
+                temp += lines[i][y];
+            }
         }
+
+
+        PrintStack(s2); cout << endl;
     }
 
  
-    return stack.empty();
-     
+    return s1.empty(); 
 }
+
+
+
+
 int main(void)
 {
     string lines[MAX_LINES];
@@ -155,11 +202,10 @@ int main(void)
     for (int i = 0; i < noOfLines; i++)
         cout << lines[i] << endl;
 
-   
+    cout << "----------------------------------------" << endl;
     cout << "validity : " << isValid(lines, noOfLines) << endl;
     
     
-        
-
+   
     return 0;
 }
