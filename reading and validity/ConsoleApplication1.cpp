@@ -13,34 +13,36 @@ using namespace std;
 
 class follower
 {
-	private:
-		string id;
-	public:
-		void setID(string id) { this->id = id; }
-		string getID() { return id; }
+private:
+    string id;
+public:
+    void setID(string id) { this->id = id; }
+    string getID() { return id; }
 };
+
 
 class post
 {
-	private:
-		string topics[10];
-		int currentNoOfTopics;
-	public:
-		post()
-		{
-			currentNoOfTopics = 0;
-		}
-		void setTopic(string t)   { topics[currentNoOfTopics++]; }
-		string getTopic(int index){ return topics[index]; }
+private:
+    string topics[10];
+    int currentNoOfTopics;
+public:
+    post()
+    {
+        currentNoOfTopics = 0;
+    }
+    void setTopic(string t) { topics[currentNoOfTopics++]; }
+    string getTopic(int index) { return topics[index]; }
 };
+
 
 class user
 {
-	private:
-		string id;
-		string name;
-		follower followers[10];
-		post posts[10];
+private:
+    string id;
+    string name;
+    follower followers[10];
+    post posts[10];
 };
 
 
@@ -50,6 +52,8 @@ bool isIn(vector<string> arr, string k)
         if (arr[i] == k) return true;
     return false;
 }
+
+
 
 void PrintStack(stack<string> s)
 {
@@ -73,6 +77,7 @@ void PrintStack(stack<string> s)
 }
 
 
+
 void printVector(vector<string> v)
 {
     if (v.size() == 0)  return;
@@ -81,8 +86,6 @@ void printVector(vector<string> v)
         cout << v[i] << "\t";
     cout << endl;
 }
-
-
 
 
 /*
@@ -116,8 +119,8 @@ int readXML(string name, string arr[])
         getline(file, temp);
 
         // ignore comments and empty lines
-        if (temp.empty())          continue;
-        if (temp.find('?') != string::npos)        continue;
+        //if (temp.empty())          continue;
+        //if (temp.find('?') != string::npos)        continue;
 
         arr[lines++] = temp;    // store line into arr and increment lines
 
@@ -131,7 +134,7 @@ int readXML(string name, string arr[])
         }
     }
 
- 
+
     file.close();   // Close the file as we are now done working with it
 
     return lines;
@@ -148,7 +151,7 @@ it reports error in cases
     4- if the stack top '>'  and '>' is comming         ,  report error
     5- if the stack isnot empty after the end of xml    ,  report error
 */
-bool isValid(string lines[] , int noOfLines)
+bool isValid(string lines[], int noOfLines)
 {
     stack<char> s1;         //  define staack for storing '<' , '>'
     vector<string> s3;      //  define vector for storing tag’s name
@@ -159,20 +162,20 @@ bool isValid(string lines[] , int noOfLines)
     for (int i = 0; i < noOfLines; i++)
     {
         temp = "";
-       
+
         for (int y = 0; y < lines[i].length(); y++)
         {
             // if comming is '<'
-            if (lines[i][y] == '<')          
+            if (lines[i][y] == '<')
             {
                 // if stack top is empty, push '<' into stack
-                if (s1.empty())              
+                if (s1.empty())
                 {
                     s1.push('<');
                     flagToStore = true;
                 }
                 // report error
-                else                        
+                else
                 {
                     cout << "missing '>' at  line " << i + 1 << endl;
                     return false;
@@ -181,12 +184,12 @@ bool isValid(string lines[] , int noOfLines)
 
             // at storing tag name
             // if comming is '>'
-            else if (lines[i][y] == '>')   
+            else if (lines[i][y] == '>')
             {
                 //if the stack top is empty, report error
-                if (s1.empty())             
+                if (s1.empty())
                 {
-                    cout << "missing '<' at  line " << i+1 << endl;
+                    cout << "missing '<' at  line " << i + 1 << endl;
                     return false;
                 }
                 else
@@ -194,14 +197,14 @@ bool isValid(string lines[] , int noOfLines)
                     s1.pop();                // remove '<' from stack top      
 
                     // if vector of tags’ names is empty
-                    if (s3.empty() )         
+                    if (s3.empty())
                     {
                         s3.push_back(temp);      // insert tag name into vector s3
                     }
                     else
                     {
                         // if the comming tag name is last tag name in vector of tags’ names
-                        if (temp == '/' + s3[s3.size()-1])
+                        if (temp == '/' + s3[s3.size() - 1])
                         {
                             //printVector(s3);
                             s3.pop_back();      // remove this tag name
@@ -211,7 +214,7 @@ bool isValid(string lines[] , int noOfLines)
                             // if comming tag name is already in vector of tags’ names , report error
                             if (isIn(s3, temp))
                             {
-                                cout << "there is open tag which doesnot have end tag crached at line " << i+1 << endl;
+                                cout << "there is open tag which doesnot have end tag crached at line " << i + 1 << endl;
                                 return false;
                             }
                             else if (isIn(s3, temp.substr(1)))
@@ -223,38 +226,204 @@ bool isValid(string lines[] , int noOfLines)
                             {
                                 if (temp[0] == '/')
                                 {
-                                    cout << "wrong close tag at line " << i+1 <<endl;
+                                    cout << "wrong close tag at line " << i + 1 << endl;
                                     return false;
                                 }
                                 s3.push_back(temp);
                             }
                         }
                     }
-                    
+
                     temp = "";
                     flagToStore = false;
                 }
             }
-            else if(flagToStore)
+            else if (flagToStore)
             {
                 temp += lines[i][y];
-            }          
+            }
         }
         //printVector(s3);
-      
+
     }
 
-    
+
     if (s3.empty())
     {
         return true;
     }
 
-    return s1.empty(); 
+    return s1.empty();
+}
+
+
+void createXML(string arr[], int noOfLines)
+{
+    // create file
+    ofstream MyFile("corrected.xml");
+
+    // Write to the file
+    for (int i = 0; i < noOfLines; i++)
+    {
+        MyFile << arr[i] << endl;
+    }
+
+    // Close the file
+    MyFile.close();
 }
 
 
 
+
+
+void tt(string lines[], int noOfLines)
+{
+    stack<char> s1;         //  define staack for storing '<' , '>'
+    vector<string> s3;      //  define vector for storing tag’s name
+
+    bool flagToStore = false;
+    string temp;
+
+    for (int i = 0; i < noOfLines; i++)
+    {
+        temp = "";
+
+        for (int y = 0; y < lines[i].length(); y++)
+        {
+            // if comming is '<' , push '<' into stack
+            if (lines[i][y] == '<')
+            {
+                s1.push('<');
+                flagToStore = true;  // record any characters before '>'
+            }
+
+            // if comming is '>'
+            else if (lines[i][y] == '>')
+            {
+                s1.pop();                // remove '<' from stack top    
+
+
+
+
+                // if vector of tags’ names is empty
+                if (s3.empty())
+                {
+                    s3.push_back(temp);      // insert tag name(recorded characters) into vector s3
+                }
+                else
+                {
+                    // if the recorded characters is last tag name in vector of tags’ names
+                    if (temp == '/' + s3[s3.size() - 1])
+                    {
+                        //printVector(s3);
+                        s3.pop_back();      // remove this tag name
+                    }
+                    else
+                    {
+                        // if the recorded characters is already in vector of tags’ names
+                        // this means that recorded characters represents new open tag
+                        // but there was open tag of same kind which isnot closed until yet
+                        if (isIn(s3, temp))
+                        {
+                            cout << "there is open tag which doesnot have end tag crached at line " << i + 1 << endl;
+                        }
+                        else if (isIn(s3, temp.substr(1)))
+                        {
+                            cout << "missing close tag after line " << i << endl;
+                        }
+                    }
+                    temp = "";
+                    flagToStore = false;
+                }
+            }
+            else if (flagToStore)
+            {
+                temp += lines[i][y];
+            }
+        }
+        //printVector(s3);
+    }
+}
+
+
+
+int helper(string str, string& openTagName,int *index)
+{
+    int count = 0;
+    bool isMissingClosingTag = false;
+    bool recordFlag1 = false;
+
+    bool m = false;
+
+    string openTag = "";
+    string closeTag = "";
+    for (int i = 0; i < str.size(); i++)
+    {
+        if (str[i] == '<')
+        {
+            count++;
+            recordFlag1 = true;
+        }
+        else if (str[i] == '>')
+        {
+            count++;
+            recordFlag1 = false;
+            m = true;
+        }
+        else if (recordFlag1)
+        {
+            if (m == false)
+                openTag += str[i];
+            if (m == true)
+                closeTag += str[i];
+        }
+
+
+        if (i < str.size() - 1)
+            if (str[i] == '>' && str[i + 1] != ' ')
+            isMissingClosingTag = true;
+
+    }
+
+    openTagName = openTag;
+
+    if (count == 2 && isMissingClosingTag)
+        return 1;
+    else if (count == 4 && (openTagName != closeTag.substr(1)))
+    {
+        std::size_t pos = str.find('/');       
+        if (pos != std::string::npos)   // Check if index position is valid 
+        {            
+            //str = str.substr(0, pos); // Remove all characters after the given position 
+            *index = pos;
+        }
+        return 2;
+    }
+    else
+        return 0;
+}
+
+void correctXML(string lines[], int noOfLines)
+{
+    string opentagName;
+    int index;
+
+    for (int i = 0; i < noOfLines; i++)
+    {
+        opentagName = "";
+        switch( helper(lines[i], opentagName, &index) )
+        {
+            case 1:
+                lines[i] += ("</" + opentagName + '>');
+            break;
+
+            case 2:
+                lines[i] = lines[i].substr(0, index - 1);
+                lines[i] += ("</" + opentagName + '>');
+            break;
+        }
+    }
+}
 
 int main(void)
 {
@@ -263,20 +432,25 @@ int main(void)
 
     noOfLines = readXML("sample.xml", lines);
 
-   // print read file
+    // print read file
     for (int i = 0; i < noOfLines; i++)
     {
         printf("line %2d ", i + 1);
         cout << lines[i] << endl;
 
     }
-       // cout << "line " << i+1 << " " << lines[i] << endl;
-    
+
 
     cout << "----------------------------------------" << endl;
     cout << "validity : " << isValid(lines, noOfLines) << endl;
-    
-    
-   
+    cout << "----------------------------------------" << endl;
+
+    correctXML(lines, noOfLines);
+    createXML(lines, noOfLines);
+
+    cout << "----------------------------------------" << endl;
+    cout << "validity : " << isValid(lines, noOfLines) << endl;
+    cout << "----------------------------------------" << endl;
+
     return 0;
 }

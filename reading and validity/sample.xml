@@ -1,11 +1,11 @@
 <users>
     <user>
         <id>1</id>
-        <name>Ahmed Ali</name>
+        <name>Ahmed Ali</id>
         <posts>
             <post>
                 <body>
-                    Lorem ipsum dolor sit amet, consectetur adi
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </body>
                 <topics>
                     <topic>
@@ -18,8 +18,8 @@
             </post>
             <post>
                 <body>
-                    Lorem ipsum dolor sit amet, consectetur
-			</body>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </body>
                 <topics>
                     <topic>
                         solar_energy
@@ -37,13 +37,13 @@
         </followers>
     </user>
     <user>
-        <id>2</name>
+        <id>2</id>
         <name>Yasser Ahmed</name>
         <posts>
             <post>
                 <body>
-                    Lorem ipsum dolor sit amet, consectetur
-			</body>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </body>
                 <topics>
                     <topic>
                         education
@@ -63,8 +63,8 @@
         <posts>
             <post>
                 <body>
-                    Lorem ipsum dolor sit amet, consectetur
-			</body>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </body>
                 <topics>
                     <topic>
                         sports
