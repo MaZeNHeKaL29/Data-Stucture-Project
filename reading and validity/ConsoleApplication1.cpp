@@ -5,6 +5,11 @@ using namespace std;
 #include <fstream>
 #include <string>
 #include <stack>
+#include <vector>
+
+
+#define MAX_LINES 1000
+
 
 class follower
 {
@@ -39,6 +44,12 @@ class user
 };
 
 
+bool isIn(vector<string> arr, string k)
+{
+    for (int i = 0; i < arr.size(); i++)
+        if (arr[i] == k) return true;
+    return false;
+}
 
 void PrintStack(stack<string> s)
 {
@@ -62,9 +73,17 @@ void PrintStack(stack<string> s)
 }
 
 
+void printVector(vector<string> v)
+{
+    if (v.size() == 0)  return;
+
+    for (int i = 0; i < v.size(); i++)
+        cout << v[i] << "\t";
+    cout << endl;
+}
 
 
-#define MAX_LINES 1000
+
 
 /*
 this function takes name of file (ex: "books.xml") and array of strings for storing lines (each element in array represent line)
@@ -131,58 +150,84 @@ it reports error in cases
 */
 bool isValid(string lines[] , int noOfLines)
 {
-    stack<char> s1;
-    stack<string> s2;
+    stack<char> s1;         //  define staack for storing '<' , '>'
+    vector<string> s3;      //  define vector for storing tag’s name
+
     bool flagToStore = false;
     string temp;
 
     for (int i = 0; i < noOfLines; i++)
     {
         temp = "";
+       
         for (int y = 0; y < lines[i].length(); y++)
         {
-            if (lines[i][y] == '<')          // if comming is '<'
+            // if comming is '<'
+            if (lines[i][y] == '<')          
             {
-                if (s1.empty())              //if stack top is empty, push '<' into stack
+                // if stack top is empty, push '<' into stack
+                if (s1.empty())              
                 {
                     s1.push('<');
                     flagToStore = true;
                 }
-                else                        //if the stack top '<', report error
+                // report error
+                else                        
                 {
-                    cout << "problem in line " << i << endl;
-                    cout << "<..........<" << endl;
-                    cout << lines[i] << endl;
+                    cout << "missing '>' at  line " << i + 1 << endl;
                     return false;
                 }
             }
-            else if (lines[i][y] == '>')   // if comming is '>'
+
+            // at storing tag name
+            // if comming is '>'
+            else if (lines[i][y] == '>')   
             {
-                if (s1.empty())             //if the stack top is empty, report error
+                //if the stack top is empty, report error
+                if (s1.empty())             
                 {
-                    cout << "problem in line " << i << endl;
-                    cout << "letter " << lines[i][y] << endl;
-                    cout << "..........<" << endl;
-                    cout << lines[i] << endl;
+                    cout << "missing '<' at  line " << i+1 << endl;
                     return false;
                 }
                 else
                 {
-                    s1.pop();
+                    s1.pop();                // remove '<' from stack top      
 
-                    if (s2.empty())
+                    // if vector of tags’ names is empty
+                    if (s3.empty() )         
                     {
-                        s2.push(temp);
+                        s3.push_back(temp);      // insert tag name into vector s3
                     }
                     else
                     {
-                        if ('/' + s2.top() == temp)
+                        // if the comming tag name is last tag name in vector of tags’ names
+                        if (temp == '/' + s3[s3.size()-1])
                         {
-                            s2.pop();
+                            //printVector(s3);
+                            s3.pop_back();      // remove this tag name
                         }
                         else
                         {
-                            s2.push(temp);
+                            // if comming tag name is already in vector of tags’ names , report error
+                            if (isIn(s3, temp))
+                            {
+                                cout << "there is open tag which doesnot have end tag crached at line " << i+1 << endl;
+                                return false;
+                            }
+                            else if (isIn(s3, temp.substr(1)))
+                            {
+                                cout << "missing close tag after line " << i << endl;
+                                return false;
+                            }
+                            else
+                            {
+                                if (temp[0] == '/')
+                                {
+                                    cout << "wrong close tag at line " << i+1 <<endl;
+                                    return false;
+                                }
+                                s3.push_back(temp);
+                            }
                         }
                     }
                     
@@ -193,17 +238,15 @@ bool isValid(string lines[] , int noOfLines)
             else if(flagToStore)
             {
                 temp += lines[i][y];
-            }
+            }          
         }
-
-
-        PrintStack(s2); cout << endl;
+        //printVector(s3);
+      
     }
 
     
-    if (s2.empty())
+    if (s3.empty())
     {
-        cout << "s2" << endl;
         return true;
     }
 
@@ -218,11 +261,17 @@ int main(void)
     string lines[MAX_LINES];
     int noOfLines;
 
-    noOfLines = readXML("books.xml", lines);
+    noOfLines = readXML("sample.xml", lines);
 
    // print read file
     for (int i = 0; i < noOfLines; i++)
+    {
+        printf("line %2d ", i + 1);
         cout << lines[i] << endl;
+
+    }
+       // cout << "line " << i+1 << " " << lines[i] << endl;
+    
 
     cout << "----------------------------------------" << endl;
     cout << "validity : " << isValid(lines, noOfLines) << endl;

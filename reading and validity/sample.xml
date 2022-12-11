@@ -3,9 +3,9 @@
         <id>1</id>
         <name>Ahmed Ali</name>
         <posts>
-            <post
+            <post>
                 <body>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Lorem ipsum dolor sit amet, consectetur adi
                 </body>
                 <topics>
                     <topic>
@@ -18,8 +18,8 @@
             </post>
             <post>
                 <body>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </body>
+                    Lorem ipsum dolor sit amet, consectetur
+			</body>
                 <topics>
                     <topic>
                         solar_energy
@@ -37,13 +37,13 @@
         </followers>
     </user>
     <user>
-        <id>2</id>
+        <id>2</name>
         <name>Yasser Ahmed</name>
         <posts>
             <post>
                 <body>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </body>
+                    Lorem ipsum dolor sit amet, consectetur
+			</body>
                 <topics>
                     <topic>
                         education
@@ -63,8 +63,8 @@
         <posts>
             <post>
                 <body>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </body>
+                    Lorem ipsum dolor sit amet, consectetur
+			</body>
                 <topics>
                     <topic>
                         sports
