@@ -1,6 +1,6 @@
 <users>
     <user>
-        <id>1</id>
+        <id>1
         <name>Ahmed Ali</id>
         <posts>
             <post>
@@ -34,7 +34,7 @@
             <follower>
                 <id>3</id>
             </follower>
-        </followers>
+
     </user>
     <user>
         <id>2</id>

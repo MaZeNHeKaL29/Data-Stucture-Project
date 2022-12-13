@@ -9,41 +9,7 @@ using namespace std;
 
 
 #define MAX_LINES 1000
-
-
-class follower
-{
-private:
-    string id;
-public:
-    void setID(string id) { this->id = id; }
-    string getID() { return id; }
-};
-
-
-class post
-{
-private:
-    string topics[10];
-    int currentNoOfTopics;
-public:
-    post()
-    {
-        currentNoOfTopics = 0;
-    }
-    void setTopic(string t) { topics[currentNoOfTopics++]; }
-    string getTopic(int index) { return topics[index]; }
-};
-
-
-class user
-{
-private:
-    string id;
-    string name;
-    follower followers[10];
-    post posts[10];
-};
+#define MAX_ERRORS 10
 
 
 bool isIn(vector<string> arr, string k)
@@ -52,8 +18,6 @@ bool isIn(vector<string> arr, string k)
         if (arr[i] == k) return true;
     return false;
 }
-
-
 
 void PrintStack(stack<string> s)
 {
@@ -75,8 +39,6 @@ void PrintStack(stack<string> s)
     // to preserve the order
     s.push(x);
 }
-
-
 
 void printVector(vector<string> v)
 {
@@ -244,7 +206,6 @@ bool isValid(string lines[], int noOfLines)
             }
         }
         //printVector(s3);
-
     }
 
 
@@ -275,8 +236,12 @@ void createXML(string arr[], int noOfLines)
 
 
 
-
-void tt(string lines[], int noOfLines)
+/*
+*   this function correctXML one type of error
+*   error : missing close tag 
+*   (there are multiple lines between the line contains open tag and line that should contain close tag)
+*/
+void correctOneTypeError(string lines[], int noOfLines)
 {
     stack<char> s1;         //  define staack for storing '<' , '>'
     vector<string> s3;      //  define vector for storing tag’s name
@@ -290,48 +255,76 @@ void tt(string lines[], int noOfLines)
 
         for (int y = 0; y < lines[i].length(); y++)
         {
-            // if comming is '<' , push '<' into stack
+            // if comming is '<'
             if (lines[i][y] == '<')
             {
-                s1.push('<');
-                flagToStore = true;  // record any characters before '>'
+                // if stack top is empty, push '<' into stack
+                if (s1.empty())
+                {
+                    s1.push('<');
+                    flagToStore = true;
+                }
+                // report error
+                //else
+                //{
+                    //cout << "missing '>' at  line " << i + 1 << endl;
+                    //return false;
+                //}
             }
 
+            // at storing tag name
             // if comming is '>'
             else if (lines[i][y] == '>')
             {
-                s1.pop();                // remove '<' from stack top    
-
-
-
-
-                // if vector of tags’ names is empty
-                if (s3.empty())
+                //if the stack top is empty, report error
+                if (s1.empty())
                 {
-                    s3.push_back(temp);      // insert tag name(recorded characters) into vector s3
+                    //cout << "missing '<' at  line " << i + 1 << endl;
+                    //return false;
                 }
                 else
                 {
-                    // if the recorded characters is last tag name in vector of tags’ names
-                    if (temp == '/' + s3[s3.size() - 1])
+                    s1.pop();                // remove '<' from stack top      
+
+                    // if vector of tags’ names is empty
+                    if (s3.empty())
                     {
-                        //printVector(s3);
-                        s3.pop_back();      // remove this tag name
+                        s3.push_back(temp);      // insert tag name into vector s3
                     }
                     else
                     {
-                        // if the recorded characters is already in vector of tags’ names
-                        // this means that recorded characters represents new open tag
-                        // but there was open tag of same kind which isnot closed until yet
-                        if (isIn(s3, temp))
+                        // if the comming tag name is last tag name in vector of tags’ names
+                        if (temp == '/' + s3[s3.size() - 1])
                         {
-                            cout << "there is open tag which doesnot have end tag crached at line " << i + 1 << endl;
+                            //printVector(s3);
+                            s3.pop_back();      // remove this tag name
                         }
-                        else if (isIn(s3, temp.substr(1)))
+                        else
                         {
-                            cout << "missing close tag after line " << i << endl;
+                            // if comming tag name is already in vector of tags’ names , report error
+                            if (isIn(s3, temp))
+                            {
+                                //cout << "there is open tag which doesnot have end tag crached at line " << i + 1 << endl;
+                                //return false;
+                            }
+                            else if (isIn(s3, temp.substr(1)))
+                            {
+                                //cout << "missing close tag after line " << i << endl;
+                                lines[i - 1] = ("</" + s3[s3.size() - 1] + '>');
+                                //return false;
+                            }
+                            else
+                            {
+                                if (temp[0] == '/')
+                                {
+                                    //cout << "wrong close tag at line " << i + 1 << endl;
+                                    //return false;
+                                }
+                                s3.push_back(temp);
+                            }
                         }
                     }
+
                     temp = "";
                     flagToStore = false;
                 }
@@ -343,6 +336,7 @@ void tt(string lines[], int noOfLines)
         }
         //printVector(s3);
     }
+
 }
 
 
@@ -403,7 +397,13 @@ int helper(string str, string& openTagName,int *index)
         return 0;
 }
 
-void correctXML(string lines[], int noOfLines)
+
+/* 
+* this function corrects two types of errors 
+* error : missing close tag (line contains open tag and attribute but doesont contain close tag)
+* error : wrong close tag   (line contains open tag and attribute but contain wrong close tag)
+*/
+void correctTwoTypeErrors(string lines[], int noOfLines)
 {
     string opentagName;
     int index;
@@ -425,6 +425,25 @@ void correctXML(string lines[], int noOfLines)
     }
 }
 
+
+/*
+*   this function corrects xml file
+*/
+void correctXML(string lines[], int noOfLines, int calls)
+{
+    for (int i = 0; i < calls; i++)
+    {
+        // correctXML two types of errors 
+        // error : missing close tag in same line
+        // error : wrong close tag in same line
+        correctTwoTypeErrors(lines, noOfLines);
+
+        // correctXML one type of error
+        correctOneTypeError(lines, noOfLines);          // correctXML error per loop
+    }
+}
+
+
 int main(void)
 {
     string lines[MAX_LINES];
@@ -433,24 +452,34 @@ int main(void)
     noOfLines = readXML("sample.xml", lines);
 
     // print read file
-    for (int i = 0; i < noOfLines; i++)
+    /* for (int i = 0; i < noOfLines; i++)
     {
         printf("line %2d ", i + 1);
         cout << lines[i] << endl;
 
-    }
+    }*/
 
 
     cout << "----------------------------------------" << endl;
     cout << "validity : " << isValid(lines, noOfLines) << endl;
     cout << "----------------------------------------" << endl;
 
-    correctXML(lines, noOfLines);
+   
+    correctXML(lines, noOfLines, MAX_ERRORS);
     createXML(lines, noOfLines);
 
     cout << "----------------------------------------" << endl;
     cout << "validity : " << isValid(lines, noOfLines) << endl;
     cout << "----------------------------------------" << endl;
+
+
+    // print read file
+    /*for (int i = 0; i < noOfLines; i++)
+    {
+        printf("line %2d ", i + 1);
+        cout << lines[i] << endl;
+
+    }*/
 
     return 0;
 }
