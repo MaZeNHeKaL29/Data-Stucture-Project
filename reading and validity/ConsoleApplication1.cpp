@@ -28,7 +28,6 @@ void PrintStack(stack<string> s)
     string x = s.top();
     s.pop();            // Pop the top element of the stack
 
-
     PrintStack(s);      // Recursively call the function PrintStack
 
     // Print the stack element starting
@@ -116,7 +115,7 @@ it reports error in cases
 bool isValid(string lines[], int noOfLines)
 {
     stack<char> s1;         //  define staack for storing '<' , '>'
-    vector<string> s3;      //  define vector for storing tag’s name
+    vector<string> s3;      //  define vector for storing tagâ€™s name
 
     bool flagToStore = false;
     string temp;
@@ -158,14 +157,14 @@ bool isValid(string lines[], int noOfLines)
                 {
                     s1.pop();                // remove '<' from stack top      
 
-                    // if vector of tags’ names is empty
+                    // if vector of tagsâ€™ names is empty
                     if (s3.empty())
                     {
                         s3.push_back(temp);      // insert tag name into vector s3
                     }
                     else
                     {
-                        // if the comming tag name is last tag name in vector of tags’ names
+                        // if the comming tag name is last tag name in vector of tagsâ€™ names
                         if (temp == '/' + s3[s3.size() - 1])
                         {
                             //printVector(s3);
@@ -173,7 +172,7 @@ bool isValid(string lines[], int noOfLines)
                         }
                         else
                         {
-                            // if comming tag name is already in vector of tags’ names , report error
+                            // if comming tag name is already in vector of tagsâ€™ names , report error
                             if (isIn(s3, temp))
                             {
                                 cout << "there is open tag which doesnot have end tag crached at line " << i + 1 << endl;
@@ -244,7 +243,7 @@ void createXML(string arr[], int noOfLines)
 void correctOneTypeError(string lines[], int noOfLines)
 {
     stack<char> s1;         //  define staack for storing '<' , '>'
-    vector<string> s3;      //  define vector for storing tag’s name
+    vector<string> s3;      //  define vector for storing tagâ€™s name
 
     bool flagToStore = false;
     string temp;
@@ -286,14 +285,14 @@ void correctOneTypeError(string lines[], int noOfLines)
                 {
                     s1.pop();                // remove '<' from stack top      
 
-                    // if vector of tags’ names is empty
+                    // if vector of tagsâ€™ names is empty
                     if (s3.empty())
                     {
                         s3.push_back(temp);      // insert tag name into vector s3
                     }
                     else
                     {
-                        // if the comming tag name is last tag name in vector of tags’ names
+                        // if the comming tag name is last tag name in vector of tagsâ€™ names
                         if (temp == '/' + s3[s3.size() - 1])
                         {
                             //printVector(s3);
@@ -301,7 +300,7 @@ void correctOneTypeError(string lines[], int noOfLines)
                         }
                         else
                         {
-                            // if comming tag name is already in vector of tags’ names , report error
+                            // if comming tag name is already in vector of tagsâ€™ names , report error
                             if (isIn(s3, temp))
                             {
                                 //cout << "there is open tag which doesnot have end tag crached at line " << i + 1 << endl;
