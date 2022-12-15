@@ -111,23 +111,23 @@ void StoreTree(Node* node,ofstream &out)
 
 void getCode(char symbol, Node *root, string &code)
 {
-	if (root->symbol == symbol && code.back() != 'E')
-		code.push_back('E');
+	if (root->symbol == symbol && code.back() != '#')
+		code.push_back('#');
 
 	if (root->left != NULL ) {
 		code.push_back('0');
 
 		getCode(symbol, root->left, code);
-		if (code.back() == 'E') {
+		if (code.back() == '#') {
 			return;
 		}
 		else
-				code.pop_back();
+            code.pop_back();
 	}
 	if (root->right != NULL ) {
 		code.push_back('1');
 		getCode(symbol, root->right, code);
-		if (code.back() == 'E')
+		if (code.back() == '#')
 			return;
 		else code.pop_back();
 	}
