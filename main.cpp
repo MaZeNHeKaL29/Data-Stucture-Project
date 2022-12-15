@@ -264,8 +264,7 @@ void Decompression(string filename) {
 
 int main()
 {
-    string input;
-    bitReader(input);
+    	string input;
 	getline(cin, input, ' ');
 	while (input != "exit") {
         if (input == "compress") {
