@@ -146,6 +146,11 @@ bool isValid(string lines[], int noOfLines)
 
             // at storing tag name
             // if comming is '>'
+            else if (lines[i][y] == ' ')
+            {
+                //temp = "";
+                flagToStore = false;
+            }
             else if (lines[i][y] == '>')
             {
                 //if the stack top is empty, report error
@@ -449,10 +454,13 @@ int main(void)
     string lines[MAX_LINES];
     int noOfLines;
 
-    noOfLines = readXML("sample.xml", lines);
+    //noOfLines = readXML("sample.xml", lines);
+
+    noOfLines = readXML("sample_CustomersOrders.xml", lines);
+    
 
     // print read file
-    /* for (int i = 0; i < noOfLines; i++)
+   /* for (int i = 0; i < noOfLines; i++)
     {
         printf("line %2d ", i + 1);
         cout << lines[i] << endl;
@@ -465,12 +473,12 @@ int main(void)
     cout << "----------------------------------------" << endl;
 
    
-    correctXML(lines, noOfLines, MAX_ERRORS);
-    createXML(lines, noOfLines);
+    //correctXML(lines, noOfLines, MAX_ERRORS);
+    //createXML(lines, noOfLines);
 
-    cout << "----------------------------------------" << endl;
+    /*cout << "----------------------------------------" << endl;
     cout << "validity : " << isValid(lines, noOfLines) << endl;
-    cout << "----------------------------------------" << endl;
+    cout << "----------------------------------------" << endl;*/
 
 
     // print read file
