@@ -1,3 +1,3 @@
 ﻿  ConsoleApplication1.cpp
-D:\Data-Stucture-Project\reading and validity\ConsoleApplication1.cpp(397,25): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Data-Stucture-Project\reading and validity\ConsoleApplication1.cpp(402,25): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
   ConsoleApplication1.vcxproj -> D:\Data-Stucture-Project\reading and validity\x64\Debug\ConsoleApplication1.exe

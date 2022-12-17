@@ -279,6 +279,11 @@ void correctOneTypeError(string lines[], int noOfLines)
 
             // at storing tag name
             // if comming is '>'
+            else if (lines[i][y] == ' ')
+            {
+                //temp = "";
+                flagToStore = false;
+            }
             else if (lines[i][y] == '>')
             {
                 //if the stack top is empty, report error
@@ -441,7 +446,7 @@ void correctXML(string lines[], int noOfLines, int calls)
         // correctXML two types of errors 
         // error : missing close tag in same line
         // error : wrong close tag in same line
-        correctTwoTypeErrors(lines, noOfLines);
+        //correctTwoTypeErrors(lines, noOfLines);
 
         // correctXML one type of error
         correctOneTypeError(lines, noOfLines);          // correctXML error per loop
@@ -457,10 +462,12 @@ int main(void)
     //noOfLines = readXML("sample.xml", lines);
 
     noOfLines = readXML("sample_CustomersOrders.xml", lines);
+
+    //noOfLines = readXML("new 10.xml", lines);
     
 
     // print read file
-   /* for (int i = 0; i < noOfLines; i++)
+    /*for (int i = 0; i < noOfLines; i++)
     {
         printf("line %2d ", i + 1);
         cout << lines[i] << endl;
@@ -473,12 +480,12 @@ int main(void)
     cout << "----------------------------------------" << endl;
 
    
-    //correctXML(lines, noOfLines, MAX_ERRORS);
-    //createXML(lines, noOfLines);
+    correctXML(lines, noOfLines, MAX_ERRORS);
+    createXML(lines, noOfLines);
 
-    /*cout << "----------------------------------------" << endl;
+    cout << "----------------------------------------" << endl;
     cout << "validity : " << isValid(lines, noOfLines) << endl;
-    cout << "----------------------------------------" << endl;*/
+    cout << "----------------------------------------" << endl;
 
 
     // print read file
