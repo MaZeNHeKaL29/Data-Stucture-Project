@@ -26,5 +26,8 @@
     <ClInclude Include="XML_Form.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="user_post.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -125,6 +125,7 @@
     <ClCompile Include="XML_Form.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="user_post.h" />
     <ClInclude Include="XML_Form.h">
       <FileType>CppForm</FileType>
     </ClInclude>
