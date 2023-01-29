@@ -1196,7 +1196,7 @@ it reports error in cases
 bool isValid(string lines[], int noOfLines, string &error)
 {
     stack<char> s1;         //  define staack for storing '<' , '>'
-    vector<string> s3;      //  define vector for storing tag’s name
+    vector<string> s3;      //  define vector for storing tagâ€™s name
 
     bool flagToStore = false;
     string temp;
@@ -1245,14 +1245,14 @@ bool isValid(string lines[], int noOfLines, string &error)
                 {
                     s1.pop();                // remove '<' from stack top      
 
-                    // if vector of tags’ names is empty
+                    // if vector of tagsâ€™ names is empty
                     if (s3.empty())
                     {
                         s3.push_back(temp);      // insert tag name into vector s3
                     }
                     else
                     {
-                        // if the comming tag name is last tag name in vector of tags’ names
+                        // if the comming tag name is last tag name in vector of tagsâ€™ names
                         if (temp == '/' + s3[s3.size() - 1])
                         {
                             //printVector(s3);
@@ -1260,7 +1260,7 @@ bool isValid(string lines[], int noOfLines, string &error)
                         }
                         else
                         {
-                            // if comming tag name is already in vector of tags’ names , report error
+                            // if comming tag name is already in vector of tagsâ€™ names , report error
                             if (isIn(s3, temp))
                             {
                                 error = "there is open tag which doesnot have end tag crached at line " + to_string(i + 1);
@@ -1323,7 +1323,6 @@ void createXML(string arr[], int noOfLines, string filename)
 
 
 
-
 /*
 *   this function correctXML one type of error
 *   error : missing close tag
@@ -1332,7 +1331,7 @@ void createXML(string arr[], int noOfLines, string filename)
 void correctOneTypeError(string lines[], int noOfLines)
 {
     stack<char> s1;         //  define staack for storing '<' , '>'
-    vector<string> s3;      //  define vector for storing tag’s name
+    vector<string> s3;      //  define vector for storing tagâ€™s name
 
     bool flagToStore = false;
     string temp;
@@ -1362,11 +1361,6 @@ void correctOneTypeError(string lines[], int noOfLines)
 
             // at storing tag name
             // if comming is '>'
-            else if (lines[i][y] == ' ')
-            {
-                //temp = "";
-                flagToStore = false;
-            }
             else if (lines[i][y] == '>')
             {
                 //if the stack top is empty, report error
@@ -1379,14 +1373,14 @@ void correctOneTypeError(string lines[], int noOfLines)
                 {
                     s1.pop();                // remove '<' from stack top      
 
-                    // if vector of tags’ names is empty
+                    // if vector of tagsâ€™ names is empty
                     if (s3.empty())
                     {
                         s3.push_back(temp);      // insert tag name into vector s3
                     }
                     else
                     {
-                        // if the comming tag name is last tag name in vector of tags’ names
+                        // if the comming tag name is last tag name in vector of tagsâ€™ names
                         if (temp == '/' + s3[s3.size() - 1])
                         {
                             //printVector(s3);
@@ -1394,7 +1388,7 @@ void correctOneTypeError(string lines[], int noOfLines)
                         }
                         else
                         {
-                            // if comming tag name is already in vector of tags’ names , report error
+                            // if comming tag name is already in vector of tagsâ€™ names , report error
                             if (isIn(s3, temp))
                             {
                                 //cout << "there is open tag which doesnot have end tag crached at line " << i + 1 << endl;
@@ -1529,7 +1523,7 @@ void correctXML(string lines[], int noOfLines, int calls)
         // correctXML two types of errors 
         // error : missing close tag in same line
         // error : wrong close tag in same line
-        //correctTwoTypeErrors(lines, noOfLines);
+        correctTwoTypeErrors(lines, noOfLines);
 
         // correctXML one type of error
         correctOneTypeError(lines, noOfLines);          // correctXML error per loop
@@ -1606,6 +1600,7 @@ void XMLProject::XML_Form::correct_xml(String^ str_filename, String^& xml_error)
 
 void XMLProject::XML_Form::graph(String^ str_filename, String^& information)
 {
+    users.clear();
     string filename;
     System2StdString(str_filename, filename);
     //construction
