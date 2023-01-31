@@ -1,4 +1,5 @@
 #pragma once
+#include "MyForm.h"
 
 #using <system.drawing.dll>
 
@@ -461,6 +462,9 @@ private: System::Void button8_Click(System::Object^ sender, System::EventArgs^ e
 		String^ information;
 		graph(str_filename, information);
 		textBox1->Text = information;
+		MyForm^ frm1 = gcnew MyForm;
+		frm1->pictureBox1->Image = Image::FromFile("graphVisualization.dot.png");
+		frm1->Show();
 	}
 }
 private: System::Void button11_Click(System::Object^ sender, System::EventArgs^ e) {

@@ -1,3 +1,0 @@
-C:\Users\user\Desktop\ConsoleApplication1\x64\Debug\ConsoleApplication1.exe
-C:\Users\user\Desktop\Data-Stucture-Project\reading and validity\x64\Debug\ConsoleApplication1.exe
-D:\Data-Stucture-Project\reading and validity\x64\Debug\ConsoleApplication1.exe

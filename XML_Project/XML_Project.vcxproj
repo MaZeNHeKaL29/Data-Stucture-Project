@@ -111,7 +111,11 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies />
+      <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "$(HOST_APP)\plugins" </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -121,16 +125,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="check_correct_xml.cpp" />
+    <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="XML.cpp" />
     <ClCompile Include="XML_Form.cpp" />
+    <ClCompile Include="XML_Supporting_Functions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="check_correct_xml.h" />
+    <ClInclude Include="MyForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="user_post.h" />
     <ClInclude Include="XML_Form.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="XML_Supporting_Functions.h" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MyForm.resx">
+      <DependentUpon>MyForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="XML_Form.resx">
       <DependentUpon>XML_Form.h</DependentUpon>
     </EmbeddedResource>

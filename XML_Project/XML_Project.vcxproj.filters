@@ -21,12 +21,30 @@
     <ClCompile Include="XML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XML_Supporting_Functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="check_correct_xml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XML_Form.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="user_post.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XML_Supporting_Functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="check_correct_xml.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
