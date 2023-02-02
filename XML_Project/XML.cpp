@@ -143,9 +143,7 @@ void XMLProject::XML_Form::check_xml(String^ str_filename, String^& xml_error)
    
     string error;
 
-    cout << "----------------------------------------" << endl;
-    cout << "validity : " << isValid(lines, noOfLines, error) << endl;
-    cout << "----------------------------------------" << endl;
+    isValid(lines, noOfLines, error);
 
     
 
@@ -191,6 +189,9 @@ void XMLProject::XML_Form::correct_xml(String^ str_filename, String^& xml_error)
         xml_corrected += lines[i];
         xml_corrected += "\r\n";
     }
+    ofstream out(filename + "corrected.xml");
+    out << xml_corrected;
+    out.close();
 
     xml_error = gcnew String(xml_corrected.data());
 
@@ -206,31 +207,56 @@ void XMLProject::XML_Form::graph(String^ str_filename, String^& information)
     //construction
     users = constructGraph(users, filename);
     string xml_information;
-    xml_information = "Most Influencer : ";
-    xml_information += "\r\nMost Influencer User's ID is ";
-    xml_information += to_string(most_influencer(users)->id);
-    xml_information += "\r\n\r\nMost Active : ";
-    cout << "most active user's id is " << most_active(users)->id << endl;
-    xml_information += "\r\nMost Active User's ID is ";
-    xml_information += to_string(most_active(users)->id);
-    xml_information += "\r\n\r\nMutual Friends : ";
+    if (!(most_influencer(users) == NULL))
+    {
+        xml_information = "Most Influencer : ";
+        xml_information += "\r\nMost Influencer User's ID is ";
+        xml_information += to_string(most_influencer(users)->id);
+    }
+    if (!(most_active(users) == NULL))
+    {
+        xml_information += "\r\n\r\nMost Active : ";
+        xml_information += "\r\nMost Active User's ID is ";
+        xml_information += to_string(most_active(users)->id);
+    }
     if (users.size() >= 2)
     {
+        xml_information += "\r\n\r\nMutual Friends : ";
         if (mutual_followers(users[0], users[1]).size() != 0)
         {
             xml_information += "\r\nThe IDs of Mutual Followers between 1 and 2 is : ";
             for (int i = 0; i < (mutual_followers(users[0], users[1]).size()); i++)
             {
                 xml_information += to_string(mutual_followers(users[0], users[1])[i]->id);
+                xml_information += "\t";
             }
-            xml_information += "\r\n";
         }
         else
         {
             xml_information += "\r\n No Mutual Friends between User 1 and User 2";
         }
     }
-    xml_information += "\r\nSuggested Followers :";
+    if (users.size() >= 3)
+    {
+        if (mutual_followers(users[1], users[2]).size() != 0)
+        {
+            xml_information += "\r\nThe IDs of Mutual Followers between 2 and 3 is : ";
+            for (int i = 0; i < (mutual_followers(users[1], users[2]).size()); i++)
+            {
+                xml_information += to_string(mutual_followers(users[1], users[2])[i]->id);
+                xml_information += "\t";
+            }
+        }
+        else
+        {
+            xml_information += "\r\n No Mutual Friends between User 2 and User 3";
+        }
+    }
+    xml_information += "\r\n";
+    if (users.size() > 0)
+    {
+        xml_information += "\r\nSuggested Followers :";
+    }
     for (int i = 0; i < users.size(); i++)
     {
         if (suggest(users[i]).size() == 0)
@@ -250,8 +276,11 @@ void XMLProject::XML_Form::graph(String^ str_filename, String^& information)
             }
         }
     }
-    xml_information += "\r\n\r\nTrend Topic is ";
-    xml_information += trend(users);
+    if (trend(users) != "")
+    {
+        xml_information += "\r\n\r\nTrend Topic is ";
+        xml_information += trend(users);
+    }
     //visualization
     visualizeGraph(users);
 

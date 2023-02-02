@@ -13,6 +13,11 @@ vector <Post*> searchForPosts(string word, string typo, vector<User*> users)
     vector <Post*> posts;
     vector <string> splittedPost;
 
+    if (users.empty())
+    {
+        return posts;
+    }
+
     for (int i = 0; i < users.size(); i++)
     {
         for (int j = 0; j < users[i] -> posts.size(); j++)

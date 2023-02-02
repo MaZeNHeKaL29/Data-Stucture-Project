@@ -463,7 +463,10 @@ private: System::Void button8_Click(System::Object^ sender, System::EventArgs^ e
 		graph(str_filename, information);
 		textBox1->Text = information;
 		MyForm^ frm1 = gcnew MyForm;
-		frm1->pictureBox1->Image = Image::FromFile("graphVisualization.dot.png");
+		if (File::Exists("graphVisualization.dot.png"))
+		{
+			frm1->pictureBox1->Image = Image::FromFile("graphVisualization.dot.png");
+		}
 		frm1->Show();
 	}
 }

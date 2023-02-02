@@ -13,7 +13,7 @@ User * most_active(vector <User*> users)
     vector <int> activesIDs;
     vector <int> repeats;
 
-    if (users[0] == NULL)
+    if (users.empty())
     {
         return NULL;
     }

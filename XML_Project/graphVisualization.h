@@ -1,8 +1,9 @@
+#pragma once
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -21,4 +22,5 @@ void visualizeGraph(vector<User*>users)
     visualize << "}" << endl;
     visualize.close();
     system("dot -Tpng -O graphVisualization.dot");
+
 }

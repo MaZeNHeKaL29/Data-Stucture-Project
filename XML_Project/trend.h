@@ -9,6 +9,10 @@ using namespace std;
 
 string trend(vector<User*>users)
 {
+    if (users.empty())
+    {
+        return "";
+    }
     vector<string>topicsT;
     vector<int>repeatsT;
     string trend;

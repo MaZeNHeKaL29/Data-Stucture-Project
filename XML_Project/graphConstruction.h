@@ -1,14 +1,15 @@
+#pragma once
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 
 using namespace std;
 
-vector<User*> constructGraph(vector<User*>users)
+vector<User*> constructGraph(vector<User*>users, string filename)
 {
-    ifstream XMLfile("sample.xml");
+    ifstream XMLfile(filename);
     string tag = "";
     int user_index = -1;
     string line;

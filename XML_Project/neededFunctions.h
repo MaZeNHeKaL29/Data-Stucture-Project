@@ -1,8 +1,13 @@
+#pragma once
+
+
 #include <string>
 #include <vector>
 #include <fstream>
+#include <sstream>
 #include <iostream>
-#include <bits/stdc++.h>
+#include "user_post.h"
+//#include <bits/stdc++.h>
 
 using namespace std;
 

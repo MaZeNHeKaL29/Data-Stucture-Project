@@ -13,7 +13,7 @@ User * most_influencer(vector <User*> users)
 {
     vector <int> influencersIDs;
     vector <int> repeats;
-    if (users[0] == NULL)
+    if (users.empty())
     {
         return NULL;
     }

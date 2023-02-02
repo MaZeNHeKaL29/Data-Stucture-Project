@@ -72,12 +72,16 @@ void print_XML(xml_node* node, char no_tabs)
     }
     cout << endl;
     for (char i = 0; i < no_tabs - 1; i++)
-        cout << "   ";
-    if (node->get_name().at(0) != '!' && node->get_name().at(0) != '?')
     {
-        cout << "</" << node->get_name() << ">";
+        cout << "   ";
     }
-
+    if (node->get_name().size() > 0)
+    {
+        if (node->get_name().at(0) != '!' && node->get_name().at(0) != '?')
+        {
+            cout << "</" << node->get_name() << ">";
+        }
+    }
 }
 
 
@@ -134,16 +138,16 @@ xml_node* xml2tree(string xml_filename)
                 tag_type = closing_tag;
                 break;
             case ' ':
-                if (!value.empty())
+                if (!value.empty() && is_value)
                 {
                     if (value != "" && is_value && value.back() != ' ')
                     {
                         value.push_back(ch);
                     }
-                    else if (tagname != "")
-                    {
-                        tagname.push_back(ch);
-                    }
+                }
+                else if (tagname != "")
+                {
+                    tagname.push_back(ch);
                 }
                 break;
             case '\n':
@@ -183,7 +187,7 @@ void xml_tree2json(xml_node* node, string& json, int no_tabs, bool is_array)
     string name;
     for (auto& ch : node->get_name())
     {
-        if (ch == ' ')
+        if (ch == ' ' || ch == '"' || ch == '=')
         {
             break;
         }
@@ -286,33 +290,42 @@ void xml_tree2json(xml_node* node, string& json, int no_tabs, bool is_array)
             xml_tree2json(children.at(i), json, no_tabs, is_array);
             no_tabs--;
         }
-        if (node->get_value() == "" && name.at(0) != '!' && name.at(0) != '?' && (is_array || children.size() > 0))
+        if (name.size() > 0)
         {
-            if (json.back() == ',')
+            if (node->get_value() == "" && name.at(0) != '!' && name.at(0) != '?' && (is_array || children.size() > 0))
             {
-                json.pop_back();
+                if (!json.empty())
+                {
+                    if (json.back() == ',')
+                    {
+                        json.pop_back();
+                    }
+                }
             }
         }
-        if (node->get_value() == "" && name.at(0) != '!' && name.at(0) != '?')
+        if (name.size() > 0)
         {
-            if (is_array)
+            if (node->get_value() == "" && name.at(0) != '!' && name.at(0) != '?')
             {
+                if (is_array)
+                {
+                    json += "\r\n";
+                    for (int j = 0; j < no_tabs; j++)
+                    {
+                        json += "   ";
+                    }
+                    json.push_back(']');
+                }
                 json += "\r\n";
-                for (int j = 0; j < no_tabs; j++)
+                for (int j = 0; j < no_tabs - 1; j++)
                 {
                     json += "   ";
                 }
-                json.push_back(']');
-            }
-            json += "\r\n";
-            for (int j = 0; j < no_tabs - 1; j++)
-            {
-                json += "   ";
-            }
-            json.push_back('}');
-            if (array_node || children.size() > 0)
-            {
-                json.push_back(',');
+                json.push_back('}');
+                if (array_node || children.size() > 0)
+                {
+                    json.push_back(',');
+                }
             }
         }
     }
@@ -363,9 +376,12 @@ void xml_tree2xml(xml_node* node, string& xml, char no_tabs)
     {
         xml += "   ";
     }
-    if (node->get_name().at(0) != '!' && node->get_name().at(0) != '?')
+    if (node->get_name().size() > 0)
     {
-        xml = xml + "</" + node->get_name() + ">";
+        if (node->get_name().at(0) != '!' && node->get_name().at(0) != '?')
+        {
+            xml = xml + "</" + node->get_name() + ">";
+        }
     }
 }
 
@@ -410,9 +426,12 @@ void xml_minify(xml_node* node, string& xml)
     {
         xml_minify(ch, xml);
     }
-    if (node->get_name().at(0) != '!' && node->get_name().at(0) != '?')
+    if (node->get_name().size() > 0)
     {
-        xml = xml + "</" + node->get_name() + ">";
+        if (node->get_name().at(0) != '!' && node->get_name().at(0) != '?')
+        {
+            xml = xml + "</" + node->get_name() + ">";
+        }
     }
 }
 
@@ -448,10 +467,14 @@ void xml_minify2(xml_node* node, string& xml)
     {
         xml_minify2(ch, xml);
     }
-    if (node->get_name().at(0) != '!' && node->get_name().at(0) != '?')
+    if (node->get_name().size() > 0)
     {
-        xml = xml + "</" + node->get_name() + ">";
+        if (node->get_name().at(0) != '!' && node->get_name().at(0) != '?')
+        {
+            xml = xml + "</" + node->get_name() + ">";
+        }
     }
+    xml.erase(remove(xml.begin(), xml.end(), ' '), xml.end());
 }
 
 
