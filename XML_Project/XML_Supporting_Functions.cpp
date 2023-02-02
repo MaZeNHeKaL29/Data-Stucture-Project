@@ -30,6 +30,10 @@ stack<char> symbol;
 //function to print XML(For Debugging only)
 void print_XML(xml_node* node, char no_tabs)
 {
+    if (node == NULL)
+    {
+        return;
+    }
     cout << "<" << node->get_name() << ">";
     if (node->get_value() != "")
     {
@@ -130,13 +134,16 @@ xml_node* xml2tree(string xml_filename)
                 tag_type = closing_tag;
                 break;
             case ' ':
-                if (value != "" && is_value && value.back() != ' ')
+                if (!value.empty())
                 {
-                    value.push_back(ch);
-                }
-                else if (tagname != "")
-                {
-                    tagname.push_back(ch);
+                    if (value != "" && is_value && value.back() != ' ')
+                    {
+                        value.push_back(ch);
+                    }
+                    else if (tagname != "")
+                    {
+                        tagname.push_back(ch);
+                    }
                 }
                 break;
             case '\n':
@@ -158,13 +165,21 @@ xml_node* xml2tree(string xml_filename)
             }
         }
     }
-    xml_node* node = root->get_children().at(0);
+    xml_node* node = root;
+    if (root->get_children().size() > 0)
+    {
+        node = root->get_children().at(0);
+    }
     return node;
 }
 
 //function to convert tree xml to json format
 void xml_tree2json(xml_node* node, string& json, int no_tabs, bool is_array)
 {
+    if (node == NULL)
+    {
+        return;
+    }
     string name;
     for (auto& ch : node->get_name())
     {
@@ -315,6 +330,10 @@ void xml_tree2json(xml_node* node, string& json, int no_tabs, bool is_array)
 //function to convert xml tree to be represented in xml format
 void xml_tree2xml(xml_node* node, string& xml, char no_tabs)
 {
+    if (node == NULL)
+    {
+        return;
+    }
     xml = xml + "<" + node->get_name() + ">";
     if (node->get_value() != "")
     {
@@ -350,9 +369,60 @@ void xml_tree2xml(xml_node* node, string& xml, char no_tabs)
     }
 }
 
+
 //function to minify xml
 void xml_minify(xml_node* node, string& xml)
 {
+    if (node == NULL)
+    {
+        return;
+    }
+    string name;
+    string value;
+    name = node->get_name();
+    name.erase(remove(name.begin(), name.end(), '\r'), name.end());
+    name.erase(remove(name.begin(), name.end(), '\n'), name.end());
+    name.erase(remove(name.begin(), name.end(), '\t'), name.end());
+    for (int i = 0; i < 32; i++)
+    {
+        name.erase(remove(name.begin(), name.end(), i), name.end());
+    }
+    xml = xml + "<" + name + ">";
+    value = node->get_value();
+    value.erase(remove(value.begin(), value.end(), '\r'), value.end());
+    value.erase(remove(value.begin(), value.end(), '\n'), value.end());
+    value.erase(remove(value.begin(), value.end(), '\t'), value.end());
+    //remove uneeded characters
+    for (int i = 0; i < 32; i++)
+    {
+        value.erase(remove(value.begin(), value.end(), i), value.end());
+    }
+    //remove uneeded spaces
+    if (!value.empty())
+    {
+        while (value.back() == ' ')
+        {
+            value.pop_back();
+        }
+    }
+    xml = xml + value;
+    for (auto& ch : node->get_children())
+    {
+        xml_minify(ch, xml);
+    }
+    if (node->get_name().at(0) != '!' && node->get_name().at(0) != '?')
+    {
+        xml = xml + "</" + node->get_name() + ">";
+    }
+}
+
+//function to minify xml
+void xml_minify2(xml_node* node, string& xml)
+{
+    if (node == NULL)
+    {
+        return;
+    }
     string name;
     string value;
     name = node->get_name();
@@ -376,10 +446,12 @@ void xml_minify(xml_node* node, string& xml)
     xml = xml + value;
     for (auto& ch : node->get_children())
     {
-        xml_minify(ch, xml);
+        xml_minify2(ch, xml);
     }
     if (node->get_name().at(0) != '!' && node->get_name().at(0) != '?')
     {
         xml = xml + "</" + node->get_name() + ">";
     }
 }
+
+

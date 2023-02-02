@@ -44,7 +44,7 @@ public:
     }
 };
 
-//an enum defining wether tag is an opening or closing tag
+//an enum defining whether tag is an opening or closing tag
 typedef enum {
     opening_tag, closing_tag
 }tag_Type;
@@ -70,3 +70,6 @@ void xml_tree2xml(xml_node* node, string& xml, char no_tabs);
 
 //function to minify xml
 void xml_minify(xml_node* node, string& xml);
+
+//function to minify xml
+void xml_minify2(xml_node* node, string& xml);
