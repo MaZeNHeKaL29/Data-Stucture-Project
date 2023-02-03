@@ -1,4 +1,4 @@
-# Data-Stucture-Project
+# Data Stucture Project
 Project of Data Structure and Algorithms Course\
 This Project focuses mainly on doing some operations on XML Files
 
